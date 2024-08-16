@@ -1,57 +1,38 @@
 import { useState, useEffect } from "react";
+import { fetchPhotos } from "../../photo-api";
+import PhotoGallery from "./PhotoGallery/PhotoGallery";
 
-import SearchBox from "./SearchBox/SearchBox";
-import ContactForm from "./ContactForm/ContactForm";
-import ContactList from "./ContactList/ContactList";
 
-import "./App.css";
+
 
 const App = () => {
-  const [contacts, setContacts] = useState(() => {
-    const savedContacts = localStorage.getItem("saved-contacts");
+    // const [searchQuery, setSearchQuery]=useState("");
+    // const [page, setPage]=useState(1);
+    const [photos, setPhotos]=useState([]);
+    // const [isLoading, setIsLoading]=useState(false);
+    // const [error, setError]=useState(false);
 
-    if (savedContacts) {
-      try {
-        const parsedContacts = JSON.parse(savedContacts);
-        if (Array.isArray(parsedContacts) && parsedContacts.length > 0) {
-          return parsedContacts;
+    useEffect(()=>{
+        async function getPhotos () {
+
+        
+            const data = await fetchPhotos();
+            
+            setPhotos (data)
+          
         }
-      } catch (e) {
-        console.error("Failed to parse saved contacts:", e);
-      }
-    }
-    return [];
-  });
-  const [filter, setFilter] = useState("");
 
-  const addContacts = (newContact) => {
-    setContacts((prevContacts) => {
-      return [...prevContacts, newContact];
-    });
-  };
+        getPhotos();
+    }, [])
 
-  const deleteContact = (contactId) => {
-    setContacts((prevContacts) => {
-      return prevContacts.filter((contact) => contact.id !== contactId);
-    });
-  };
 
-  useEffect(() => {
-    localStorage.setItem("saved-contacts", JSON.stringify(contacts));
-  }, [contacts]);
+  return(
+    <div>
+        
+        {photos.length > 0 && <PhotoGallery items={photos}/>}
+    </div>
+  )
 
-  const filteredContacts = contacts.filter((contact) =>
-    contact.name?.toLowerCase().includes(filter.toLowerCase())
-  );
-
-  return (
-    <>
-      <h1>Phonebook</h1>
-      <ContactForm onAdd={addContacts} />
-      <SearchBox value={filter} onFilter={setFilter} />
-      <ContactList contacts={filteredContacts} onDelete={deleteContact} />
-    </>
-  );
 };
 
 export default App;
