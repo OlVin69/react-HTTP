@@ -1,5 +1,6 @@
 import { Formik, Form, Field } from "formik";
 import QuerySchema from "../../../schema";
+import s from "./SearchBar.module.css"
 
 const SearchBar = ({ onSearch }) => {
   const handleSubmit = (values, actions) => {
@@ -7,11 +8,11 @@ const SearchBar = ({ onSearch }) => {
     actions.resetForm();
   };
   return (
-    <header>
+    <header className={s.header}>
       <Formik initialValues={{ query: "" }}
        onSubmit={handleSubmit}
        validationSchema={QuerySchema}>
-        <Form>
+        <Form className={s.form}>
           <Field
             name="query"
             autoComplete="off"

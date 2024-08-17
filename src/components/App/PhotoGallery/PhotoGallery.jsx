@@ -1,11 +1,12 @@
-// import PhotoCard from "../PhotoCard/PhotoCard";
+import PhotoCard from "../PhotoCard/PhotoCard";
+import s from "./PhotoGallery.module.css";
 
 const PhotoGallery = ({ items }) => {
   return (
-    <ul>
+    <ul className={s.list}>
       {items.map((item) => {
         return <li key={item.id}>
-          {item.id}
+          <PhotoCard item={item}/>
         </li>;
       })}
     </ul>

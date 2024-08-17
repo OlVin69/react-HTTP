@@ -1,10 +1,15 @@
+import s from "./PotoCard.module.css";
+
 const PhotoCard = ({ item }) => {
   return (
-    <div>
-      <img src={item.urls.small} alt={item.alt_description} />
-      <div>
-        <p>Author:{item.user.name}</p>
-        <p>Likes:{item.likes}</p>
+    <div className={s.container}>
+      <img className={s.img} src={item.urls.small} alt={item.alt_description} />
+      <div className={s.infowraper}>
+        
+          <p className={s.info}>Author: {item.user.name}</p>
+        
+          <p className={s.info}>Likes: {item.likes}</p>
+      
       </div>
     </div>
   );
